@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import LinkCard from '../components/LinkCard'; // adjust if your component path is different
 
 export default function Home() {
   const [links, setLinks] = useState([]);
@@ -17,7 +16,7 @@ export default function Home() {
           throw new Error('Invalid response format');
         }
       } catch (err) {
-        console.error('Failed to fetch links:', err);
+        console.error(err);
         setError('Could not load links');
       }
     }
@@ -26,17 +25,11 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="p-4">
-      <h1 className="text-2xl font-bold mb-4">TinyLink Dashboard</h1>
-
-      {error && <p className="text-red-500">{error}</p>}
-
+    <main>
+      <h1>TinyLink Dashboard</h1>
+      {error && <p>{error}</p>}
       {Array.isArray(links) && links.length > 0 ? (
-        <div className="space-y-2">
-          {links.map((link) => (
-            <LinkCard key={link.id} {...link} />
-          ))}
-        </div>
+        links.map(link => <div key={link.id}>{link.url}</div>)
       ) : (
         <p>No links found</p>
       )}
